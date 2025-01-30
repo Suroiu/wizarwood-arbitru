@@ -1,21 +1,21 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const { Configuration, OpenAIApi } = require("openai");
+const OpenAI = require("openai");
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-const openai = new OpenAIApi(new Configuration({
+const openai = new OpenAI({
     apiKey: "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"
-}));
+});
 
 app.post("/ask", async (req, res) => {
     const question = req.body.question;
 
     try {
-        const response = await openai.createChatCompletion({
+        const response = await openai.chat.completions.create({
             model: "gpt-4",
             messages: [
                 { role: "system", content: "Ești un expert în regulile jocului Wizarwood - The Void. Răspunde clar și concis." },
@@ -23,7 +23,7 @@ app.post("/ask", async (req, res) => {
             ]
         });
 
-        res.json({ answer: response.data.choices[0].message.content });
+        res.json({ answer: response.choices[0].message.content });
     } catch (error) {
         res.status(500).json({ answer: "Eroare la procesare. Încearcă din nou!" });
     }
