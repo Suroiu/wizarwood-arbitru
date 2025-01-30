@@ -8,7 +8,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 const openai = new OpenAIApi(new Configuration({
-    apiKey: "CHEIA_TA_OPENAI"
+    apiKey: "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"
 }));
 
 app.post("/ask", async (req, res) => {
